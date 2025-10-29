@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SoftSwiss — Company</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="https://onlyigaming.com/companies/softswiss" />
+
+<style>
+  :root {
+    --brand: #3C2863;
+    --accent: #771C72;
+    --bg: #F6F8FC;
+    --card-bg: #fff;
+    --shadow: 0px 5px 10px rgba(92,69,138,0.15);
+    --content-width: 944px;
+    --overlay-width: 992px;
+    --radius: 16px;
+    --font: 'Poppins', system-ui, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--bg);
+    color: #0C0026;
+  }
+
+  header[data-header="Main one"] {
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(128,40,123,0.05);
+    height: 86px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 248px;
+  }
+
+  footer[data-property-1="Footer"] {
+    background: #5C0057;
+    color: #fff;
+    padding: 40px 56px;
+    box-shadow: var(--shadow);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    margin-top: 80px;
+  }
+
+  .page {
+    width: 1424px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: var(--content-width) 1fr;
+    gap: 32px;
+    padding: 24px 0;
+  }
+
+  .company-content {
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .right-widgets {
+    background: #D9D9D9;
+    border-radius: 15px;
+    height: 300px;
+  }
+
+  /* ===== Overlay Mode ===== */
+  body.overlay-mode header[data-header="Main one"],
+  body.overlay-mode footer[data-property-1="Footer"],
+  body.overlay-mode .right-widgets {
+    display: none !important;
+  }
+
+  body.overlay-mode .page {
+    width: var(--overlay-width);
+    grid-template-columns: 1fr;
+    padding: 24px;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<header data-header="Main one">
+  <strong style="color:var(--brand);font-size:20px;">OnlyiGaming</strong>
+  <nav style="display:flex;gap:24px;">
+    <a href="#" style="color:#6E6A78;text-decoration:none;">Companies</a>
+    <a href="#" style="color:var(--accent);text-decoration:underline;">Careers</a>
+    <a href="#" style="color:#6E6A78;text-decoration:none;">Reviews</a>
+  </nav>
+</header>
+
+<div class="page">
+  <main class="company-content">
+    <h1 style="font-size:32px;margin:0 0 16px;">SoftSwiss</h1>
+    <h2 style="color:var(--brand);font-size:24px;margin:0 0 16px;">Headline is here</h2>
+    <p>Most advanced and it goes like this so far… With more than 24 years of cash-service experience, etc.</p>
+    <p>This content area represents the core 944 px region you’ll reuse inside the overlay.</p>
+    <div style="height:600px;background:#f9f9f9;border-radius:12px;margin-top:24px;display:flex;align-items:center;justify-content:center;color:#888;">
+      Demo content block
+    </div>
+  </main>
+
+  <aside class="right-widgets">
+    <p style="padding:24px;">Right-hand widgets / banners go here.</p>
+  </aside>
+</div>
+
+<footer data-property-1="Footer">
+  <p>© OnlyiGaming 2025 – All rights reserved.</p>
+</footer>
+
+<script>
+  // Detect overlay mode
+  const params = new URLSearchParams(location.search);
+  if (params.get('view') === 'overlay') {
+    document.body.classList.add('overlay-mode');
+  }
+</script>
+</body>
+</html>

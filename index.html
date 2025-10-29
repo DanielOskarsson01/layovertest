@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>OnlyiGaming — Companies</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --brand: #3C2863;
+    --accent: #771C72;
+    --overlay-backdrop: rgba(0,0,0,.45);
+    --overlay-width: 992px;
+    --shadow: 0px 5px 10px rgba(92,69,138,0.15);
+    --radius: 16px;
+    --font: 'Poppins', system-ui, sans-serif;
+  }
+  body{margin:0;font-family:var(--font);background:#F6F8FC;color:#0C0026}
+  header{background:#fff;box-shadow:0 4px 14px rgba(128,40,123,0.05);padding:16px 40px;font-weight:600;}
+  main{padding:40px;max-width:1100px;margin:0 auto;}
+  .btn{
+    padding:12px 20px;border:none;border-radius:8px;cursor:pointer;
+    font-weight:600;margin-right:12px;
+  }
+  .btn.primary{background:var(--accent);color:#fff;}
+  .btn.secondary{background:#fff;color:var(--accent);border:1px solid var(--accent);}
+
+  /* Overlay */
+  .backdrop{position:fixed;inset:0;background:var(--overlay-backdrop);opacity:0;pointer-events:none;transition:opacity .25s ease;}
+  .backdrop.open{opacity:1;pointer-events:auto;}
+  .sheet{
+    position:fixed;top:0;left:0;height:100%;width:min(100%,var(--overlay-width));
+    background:#fff;box-shadow:var(--shadow);transform:translateX(-104%);
+    transition:transform .3s ease;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid #e2e2ea;
+  }
+  .sheet.open{transform:translateX(0);}
+  .sheet header{padding:12px 16px;border-bottom:1px solid #e2e2ea;display:flex;justify-content:space-between;align-items:center;}
+  .sheet header h2{margin:0;font-size:18px;}
+  .sheet .content{flex:1;overflow:auto;padding:16px;}
+  .close{background:#fff;border:1px solid #ccc;border-radius:8px;padding:6px 10px;cursor:pointer;}
+  body.lock{overflow:hidden;}
+</style>
+</head>
+<body>
+
+<header>OnlyiGaming — Company Directory</header>
+
+<main>
+  <h1>Test Overlay Proof of Concept</h1>
+  <p>This demonstrates the same company page opened in two modes:</p>
+
+  <button class="btn primary" onclick="openQuickView('softswiss.html')">Quick View (Overlay)</button>
+  <button class="btn secondary" onclick="window.location='softswiss.html'">Full Page View</button>
+
+  <p style="margin-top:32px;color:#666;">
+    The overlay version hides the top, footer, and right-hand widgets.<br>
+    The full page view loads the complete layout for SEO and navigation.
+  </p>
+</main>
+
+<!-- Overlay scaffolding -->
+<div class="backdrop" id="backdrop" onclick="closeSheet()"></div>
+<aside class="sheet" id="sheet">
+  <header>
+    <h2 id="title">Company</h2>
+    <button class="close" onclick="closeSheet()">Close</button>
+  </header>
+  <div class="content" id="content">Loading…</div>
+</aside>
+
+<script>
+const sheet=document.getElementById('sheet');
+const backdrop=document.getElementById('backdrop');
+const content=document.getElementById('content');
+const title=document.getElementById('title');
+
+async function openQuickView(url){
+  document.body.classList.add('lock');
+  sheet.classList.add('open');
+  backdrop.classList.add('open');
+  content.innerHTML='Loading…';
+  const res=await fetch(url+'?view=overlay');
+  const html=await res.text();
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  const main=doc.querySelector('main');
+  const h1=doc.querySelector('h1');
+  title.textContent=h1?h1.textContent:'Company';
+  content.innerHTML='';
+  content.appendChild(main.cloneNode(true));
+  history.pushState({overlay:true},'',url);
+}
+
+function closeSheet(){
+  sheet.classList.remove('open');
+  backdrop.classList.remove('open');
+  document.body.classList.remove('lock');
+  if(history.state&&history.state.overlay)history.back();
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&sheet.classList.contains('open'))closeSheet();
+});
+window.addEventListener('popstate',()=>{
+  if(sheet.classList.contains('open'))closeSheet();
+});
+</script>
+</body>
+</html>
